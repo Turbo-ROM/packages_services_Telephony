@@ -290,6 +290,7 @@ public class NotificationMgr {
      *
      * @param visible true if there are messages waiting
      */
+
     /* package */ void updateMwi(int subId, boolean visible) {
         updateMwi(subId, visible, true /* enableNotificationSound */);
     }
@@ -326,6 +327,7 @@ public class NotificationMgr {
         Log.i(LOG_TAG, "updateMwi(): subId " + subId + " update to " + visible);
         mMwiVisible.put(subId, visible);
 
+        int resId;
         if (visible) {
             if (phone == null) {
                 Log.w(LOG_TAG, "Found null phone for: " + subId);
@@ -336,11 +338,18 @@ public class NotificationMgr {
             if (subInfo == null) {
                 Log.w(LOG_TAG, "Found null subscription info for: " + subId);
                 return;
+
             }
 
-            int resId = android.R.drawable.stat_notify_voicemail;
-            if (mTelephonyManager.getPhoneCount() > 1) {
-                resId = mwiIcon[phoneId];
+            if (Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.KEY_VOICEMAIL_BREATH, 0) == 1) {
+                resId = R.drawable.stat_notify_voicemail_breath;
+		if (mTelephonyManager.getPhoneCount() > 1) {
+                    resId = mwiIcon[phoneId]; }
+            } else {
+                resId = android.R.drawable.stat_notify_voicemail;
+                if (mTelephonyManager.getPhoneCount() > 1) {
+                    resId = mwiIcon[phoneId]; }
             }
 
             // This Notification can get a lot fancier once we have more
