@@ -2507,6 +2507,23 @@ public class PhoneUtils {
         }
     }
 
+    public static ComponentName getDefaultDialerComponent(Context context) {
+        Resources resources = context.getResources();
+        PackageManager packageManager = context.getPackageManager();
+        Intent i = new Intent(Intent.ACTION_DIAL);
+        List<ResolveInfo> resolveInfo = packageManager.queryIntentActivities(i, 0);
+        List<String> entries = Arrays.asList(resources.getStringArray(
+                R.array.dialer_default_classes));
+        for (ResolveInfo info : resolveInfo) {
+            ComponentName componentName = new ComponentName(info.activityInfo.packageName,
+                    info.activityInfo.name);
+            if (entries.contains(componentName.flattenToString())) {
+                return componentName;
+            }
+        }
+        return null;
+    }
+
     public static class TimeCount extends CountDownTimer {
         private AlertDialog mAlertDialog = null;
         public TimeCount(long millisInFuture, long countDownInterval, AlertDialog alertDlg)
@@ -2524,21 +2541,5 @@ public class PhoneUtils {
                 mAlertDialog.dismiss();
             }
         }
-
-    public static ComponentName getDefaultDialerComponent(Context context) {
-        Resources resources = context.getResources();
-        PackageManager packageManager = context.getPackageManager();
-        Intent i = new Intent(Intent.ACTION_DIAL);
-        List<ResolveInfo> resolveInfo = packageManager.queryIntentActivities(i, 0);
-        List<String> entries = Arrays.asList(resources.getStringArray(
-                R.array.dialer_default_classes));
-        for (ResolveInfo info : resolveInfo) {
-            ComponentName componentName = new ComponentName(info.activityInfo.packageName,
-                    info.activityInfo.name);
-            if (entries.contains(componentName.flattenToString())) {
-                return componentName;
-            }
-        }
-        return null;
     }
 }
