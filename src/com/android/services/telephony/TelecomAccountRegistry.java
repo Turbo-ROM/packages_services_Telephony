@@ -468,12 +468,7 @@ final class TelecomAccountRegistry {
                 }
             }
         }
-        try {
-                //get primary stack phone id.
-                primaryStackId = mExtTelephony.getPrimaryStackPhoneId();
-            } catch (RemoteException ex) {
-                Log.w(this, "Failed to get primary stack id");
-            }
+
         // If we did not list ANY accounts, we need to provide a "default" SIM account
         // for emergency numbers since no actual SIM is needed for dialing emergency
         // numbers but a phone account is.
