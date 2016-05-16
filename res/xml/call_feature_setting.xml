@@ -88,4 +88,40 @@
              android:targetPackage="com.android.settings"
              android:targetClass="com.android.settings.Settings$BlacklistSettingsActivity" />
      </PreferenceScreen>
+
+    <PreferenceCategory
+        android:key="category_prox_auto_speaker"
+        android:title="@string/display_category_prox_auto_speaker_title" >
+
+        <SwitchPreference
+            android:key="prox_auto_speaker"
+            android:title="@string/prox_auto_speaker_title"
+            android:summary="@string/prox_auto_speaker_summary"
+            android:persistent="false"
+            android:defaultValue="false" />
+
+        <CustomSeekBarPreference
+            android:key="prox_auto_speaker_delay"
+            android:title="@string/prox_auto_speaker_delay_title"
+            android:summary="@string/prox_auto_speaker_delay_summary"
+            android:persistent="false"
+            android:defaultValue="100"
+            android:max="10000"
+            android:min="100"
+            android:interval="100"
+            android:unitsLeft=""
+            android:unitsRight="ms"
+            android:dependency="prox_auto_speaker" />
+
+        <SwitchPreference
+            android:key="prox_auto_speaker_incall_only"
+            android:title="@string/prox_auto_speaker_incall_only_title"
+            android:summaryOff="@string/prox_auto_speaker_incall_only_summary_off"
+            android:summaryOn="@string/prox_auto_speaker_incall_only_summary_on"
+            android:persistent="false"
+            android:defaultValue="false"
+            android:dependency="prox_auto_speaker" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>
